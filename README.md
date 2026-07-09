@@ -36,6 +36,12 @@ The application strictly enforces a separation of concerns:
 - Toggle Airplane mode and submit a record. You will see the record is saved and badges update correctly, avoiding any errors.
 - Disable Airplane mode, and the `SyncService` will automatically push the pending records in the background.
 
+### Simulating Network Failures & Delays
+To prove the queue's resilience in unstable conditions:
+- **Artificial Delay**: Every API request via `MockApiClient` has an artificial 2-second delay built in.
+- **Random Failures**: You can toggle "Simulate Random Network Failures" on the Records List screen. When enabled, this introduces a 50% chance for an API request to fail, demonstrating that a failed record stays in the queue without crashing the app.
+- **Manual Force Sync**: The AppBar on the Records List screen includes a manual "Force Sync" button so you can instantly re-trigger the queue processing when testing failed uploads.
+
 ## Demonstration
 
 You can view the demonstration of the offline-first sync queue in action here:

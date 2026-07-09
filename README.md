@@ -35,3 +35,8 @@ The application strictly enforces a separation of concerns:
 - Priority levels 1 & 2 are visually distinct (Deep Red and Deep Orange respectively).
 - Toggle Airplane mode and submit a record. You will see the record is saved and badges update correctly, avoiding any errors.
 - Disable Airplane mode, and the `SyncService` will automatically push the pending records in the background.
+
+## Demonstration
+
+You can view the demonstration of the offline-first sync queue in action here:
+[Screen Recording Demonstration](./Screen_recording_20260709_205632.webm)

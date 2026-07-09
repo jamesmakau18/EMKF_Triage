@@ -7,7 +7,25 @@ import '../services/sync_service.dart';
 import '../models/triage_record.dart';
 
 final hiveServiceProvider = Provider((ref) => HiveService());
-final apiClientProvider = ChangeNotifierProvider((ref) => MockApiClient());
+
+class SimulateFailuresNotifier extends Notifier<bool> {
+  @override
+  bool build() => false;
+  
+  void set(bool value) {
+    state = value;
+  }
+}
+
+final simulateFailuresProvider = NotifierProvider<SimulateFailuresNotifier, bool>(() {
+  return SimulateFailuresNotifier();
+});
+
+final apiClientProvider = Provider((ref) {
+  final simulateFailures = ref.watch(simulateFailuresProvider);
+  return MockApiClient(simulateFailures: simulateFailures);
+});
+
 final connectivityServiceProvider = Provider((ref) => ConnectivityService());
 
 final triageRepositoryProvider = Provider((ref) {

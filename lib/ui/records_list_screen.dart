@@ -50,9 +50,9 @@ class RecordsListScreen extends ConsumerWidget {
           SwitchListTile(
             title: const Text('Simulate Random Network Failures'),
             subtitle: const Text('Introduces a 50% chance of API failure.'),
-            value: apiClient.simulateFailures,
+            value: ref.watch(simulateFailuresProvider),
             onChanged: (bool value) {
-              ref.read(apiClientProvider.notifier).toggleFailures(value);
+              ref.read(simulateFailuresProvider.notifier).set(value);
             },
           ),
           const Divider(height: 1),
@@ -100,6 +100,9 @@ class RecordsListScreen extends ConsumerWidget {
                 );
               },
             ),
+          ),
+        ],
+      ),
     );
   }
 }

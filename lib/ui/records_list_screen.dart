@@ -26,14 +26,40 @@ class RecordsListScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final records = ref.watch(recordsProvider);
+    final apiClient = ref.watch(apiClientProvider);
+    final syncService = ref.read(syncServiceProvider);
 
     return Scaffold(
       appBar: AppBar(
         title: const Text('Triage Records'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.sync),
+            tooltip: 'Force Sync',
+            onPressed: () {
+              syncService.requestFlush();
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Sync requested...')),
+              );
+            },
+          ),
+        ],
       ),
-      body: records.isEmpty
-          ? const Center(child: Text('No records found.'))
-          : ListView.builder(
+      body: Column(
+        children: [
+          SwitchListTile(
+            title: const Text('Simulate Random Network Failures'),
+            subtitle: const Text('Introduces a 50% chance of API failure.'),
+            value: apiClient.simulateFailures,
+            onChanged: (bool value) {
+              ref.read(apiClientProvider.notifier).toggleFailures(value);
+            },
+          ),
+          const Divider(height: 1),
+          Expanded(
+            child: records.isEmpty
+                ? const Center(child: Text('No records found.'))
+                : ListView.builder(
               itemCount: records.length,
               itemBuilder: (context, index) {
                 // Display newest first

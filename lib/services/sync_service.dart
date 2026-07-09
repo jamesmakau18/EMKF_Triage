@@ -18,7 +18,12 @@ class SyncService {
     _init();
   }
 
-  void _init() {
+  void _init() async {
+    // Check initial connectivity and flush if online
+    if (await _connectivityService.checkIsOnline()) {
+      requestFlush();
+    }
+
     _connectivitySub = _connectivityService.isOnlineStream.listen((isOnline) {
       if (isOnline) {
         requestFlush();

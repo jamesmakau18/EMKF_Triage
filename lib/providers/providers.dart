@@ -7,7 +7,7 @@ import '../services/sync_service.dart';
 import '../models/triage_record.dart';
 
 final hiveServiceProvider = Provider((ref) => HiveService());
-final apiClientProvider = Provider((ref) => MockApiClient());
+final apiClientProvider = ChangeNotifierProvider((ref) => MockApiClient());
 final connectivityServiceProvider = Provider((ref) => ConnectivityService());
 
 final triageRepositoryProvider = Provider((ref) {
